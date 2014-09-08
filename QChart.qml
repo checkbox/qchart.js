@@ -36,38 +36,40 @@ Canvas {
 // /////////////////////////////////////////////////////////////////
 
   onPaint: {
-      if(!chart) {
+      var ctx = canvas.getContext("2d");
+      /* Reset the canvas context to allow resize events to properly redraw
+         the surface with an updated window size */
+      ctx.reset()
 
-          switch(chartType) {
-          case Charts.ChartType.BAR:
-              chart = new Charts.Chart(canvas, canvas.getContext("2d")).Bar(chartData, chartOptions);
-              break;
-          case Charts.ChartType.DOUGHNUT:
-              chart = new Charts.Chart(canvas, canvas.getContext("2d")).Doughnut(chartData, chartOptions);
-              break;
-          case Charts.ChartType.LINE:
-              chart = new Charts.Chart(canvas, canvas.getContext("2d")).Line(chartData, chartOptions);
-              break;
-          case Charts.ChartType.PIE:
-              chart = new Charts.Chart(canvas, canvas.getContext("2d")).Pie(chartData, chartOptions);
-              break;
-          case Charts.ChartType.POLAR:
-              chart = new Charts.Chart(canvas, canvas.getContext("2d")).PolarArea(chartData, chartOptions);
-              break;
-          case Charts.ChartType.RADAR:
-              chart = new Charts.Chart(canvas, canvas.getContext("2d")).Radar(chartData, chartOptions);
-              break;
-          default:
-              console.log('Chart type should be specified.');
-          }
-
-          chart.init();
-
-          if (chartAnimated)
-              chartAnimator.start();
-          else
-              chartAnimationProgress = 100;
+      switch(chartType) {
+      case Charts.ChartType.BAR:
+          chart = new Charts.Chart(canvas, ctx).Bar(chartData, chartOptions);
+          break;
+      case Charts.ChartType.DOUGHNUT:
+          chart = new Charts.Chart(canvas, ctx).Doughnut(chartData, chartOptions);
+          break;
+      case Charts.ChartType.LINE:
+          chart = new Charts.Chart(canvas, ctx).Line(chartData, chartOptions);
+          break;
+      case Charts.ChartType.PIE:
+          chart = new Charts.Chart(canvas, ctx).Pie(chartData, chartOptions);
+          break;
+      case Charts.ChartType.POLAR:
+          chart = new Charts.Chart(canvas, ctx).PolarArea(chartData, chartOptions);
+          break;
+      case Charts.ChartType.RADAR:
+          chart = new Charts.Chart(canvas, ctx).Radar(chartData, chartOptions);
+          break;
+      default:
+          console.log('Chart type should be specified.');
       }
+
+      chart.init();
+
+      if (chartAnimated)
+          chartAnimator.start();
+      else
+          chartAnimationProgress = 100;
 
       chart.draw(chartAnimationProgress/100);
   }
